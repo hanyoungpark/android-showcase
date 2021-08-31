@@ -1,6 +1,7 @@
 package io.hanyoungpark.androidshowcase.repositories
 
 import dagger.Component
+import io.hanyoungpark.androidshowcase.BuildConfig
 import io.hanyoungpark.androidshowcase.models.SearchModel
 import io.hanyoungpark.androidshowcase.services.GiphyService
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,7 @@ class GiphyRepositoryImpl @Inject constructor (
                         offset: Int): Flow<SearchModel> =
         flow {
             val result
-                = giphyService.search("L1aHdsajAMSXlS2TAVaI8FNkEbeRWBzB", query, limit, offset)
+                = giphyService.search(BuildConfig.API_KEY, query, limit, offset)
                 ?: return@flow
             emit(result)
         }

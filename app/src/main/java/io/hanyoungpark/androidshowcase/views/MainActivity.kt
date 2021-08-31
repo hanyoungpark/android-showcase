@@ -42,6 +42,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
         searchResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 layoutManager.invalidateSpanAssignments()
+                if (!recyclerView.canScrollVertically(1)) {
+                    giphyViewModel.next()
+                }
             }
         })
 
