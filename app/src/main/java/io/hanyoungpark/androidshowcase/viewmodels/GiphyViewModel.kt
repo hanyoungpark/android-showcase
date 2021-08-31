@@ -10,6 +10,7 @@ import io.hanyoungpark.androidshowcase.repositories.GiphyRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class GiphyViewModel @Inject constructor(
@@ -20,14 +21,47 @@ class GiphyViewModel @Inject constructor(
     val searchResult: LiveData<List<DataModel>>
         get() = _searchResult
 
-    private val page = 0
+    private var q = ""
+    private var page = 0
+    private var lastPage = 0
     private val size = 50
+    private var lastQueryTime = 0L
 
     fun search(query: String) {
+        q = query
+        page = 0
+        lastPage = 0
+        lastQueryTime = 0L
+        doSearch(q)
+    }
+
+    fun next() {
+        if (page >= lastPage) {
+            return
+        }
+        val current = System.currentTimeMillis() / 1000
+        if (current - lastQueryTime < 5) {
+            return
+        }
+        lastQueryTime = current
+        page++
+        doSearch(q)
+    }
+
+    private fun doSearch(query: String) {
         viewModelScope.launch {
-            val flow = giphyRepository.search(query, size, page)
+            val flow = giphyRepository.search(query, size, page*size)
             flow.collect {
-                _searchResult.postValue(it.data)
+                it.data?.let { list ->
+                    _searchResult.postValue(list)
+                }
+                it.pagination?.let p@ { p ->
+                    if (p.count == 0 || p.total_count == 0) {
+                        return@p
+                    }
+                    lastPage = ceil(p.total_count.toDouble()/p.count.toDouble()).toInt()
+                    print("total page $lastPage")
+                }
             }
         }
     }
