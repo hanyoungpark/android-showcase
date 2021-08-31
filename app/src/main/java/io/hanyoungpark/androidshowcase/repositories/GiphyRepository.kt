@@ -2,7 +2,6 @@ package io.hanyoungpark.androidshowcase.repositories
 
 import dagger.Component
 import io.hanyoungpark.androidshowcase.models.SearchModel
-import io.hanyoungpark.androidshowcase.modules.GiphyModule
 import io.hanyoungpark.androidshowcase.services.GiphyService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
