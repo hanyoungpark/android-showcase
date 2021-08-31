@@ -24,7 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         all {
-            buildConfigField("String", "API_KEY", '"L1aHdsajAMSXlS2TAVaI8FNkEbeRWBzB"')
+            buildConfigField("String", "API_KEY", '"{REPLACE_YOUR_GIPHY_API_KEY_HERE}"')
         }
     }
     compileOptions {

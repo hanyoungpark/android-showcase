@@ -1,5 +1,6 @@
 package io.hanyoungpark.androidshowcase.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
     private lateinit var progressBar: ProgressBar
     private lateinit var searchResult: RecyclerView
     private lateinit var searchAdapter: GiphyAdapter
+    private var searchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val decoration = GiphyDecoration(16)
         searchAdapter = GiphyAdapter(this.baseContext)
+        searchAdapter.setOnClickImage {
+            val intent = Intent(this, DownloadActivity::class.java).apply {
+                putExtra("id", it)
+            }
+            this.startActivity(intent)
+        }
         searchResult = findViewById(R.id.searchResult)
         searchResult.adapter = searchAdapter
         searchResult.layoutManager = layoutManager
@@ -61,8 +69,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
         val searchItem = menu?.findItem(R.id.app_bar_search) ?: return true
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(this)
+        searchView = searchItem.actionView as? SearchView
+        searchView?.setOnQueryTextListener(this)
         return true
     }
 
@@ -72,6 +80,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
             searchAdapter.reset()
             giphyViewModel.search(it)
         }
+        searchView?.clearFocus()
         return false
     }
 

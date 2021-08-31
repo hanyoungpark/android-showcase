@@ -1,8 +1,7 @@
 package io.hanyoungpark.androidshowcase.repositories
 
-import dagger.Component
 import io.hanyoungpark.androidshowcase.BuildConfig
-import io.hanyoungpark.androidshowcase.models.ImagesModel
+import io.hanyoungpark.androidshowcase.models.DataModel
 import io.hanyoungpark.androidshowcase.models.SearchModel
 import io.hanyoungpark.androidshowcase.services.GiphyService
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +10,7 @@ import javax.inject.Inject
 
 interface GiphyRepository {
     fun search(query: String, limit: Int, offset: Int): Flow<SearchModel>
+    fun getImages(id: String): DataModel?
 }
 
 class GiphyRepositoryImpl @Inject constructor (
@@ -18,7 +18,7 @@ class GiphyRepositoryImpl @Inject constructor (
 ) : GiphyRepository {
 
     companion object {
-        val cache = hashMapOf<String, ImagesModel>() // Instead of DAO, lol
+        val cache = hashMapOf<String, DataModel>() // Instead of DAO, lol
     }
 
     override fun search(query: String,
@@ -29,10 +29,18 @@ class GiphyRepositoryImpl @Inject constructor (
                 = giphyService.search(BuildConfig.API_KEY, query, limit, offset)
                 ?: return@flow
             emit(result)
-            result?.data?.forEach { data ->
-                data?.images?.let {
-                    cache[data.id] = data.images
+            result.data?.forEach { data ->
+                data.images?.let {
+                    cache[data.id] = data
                 }
             }
         }
+
+    override fun getImages(id: String): DataModel? {
+        if (!cache.contains(id)) {
+            return null
+        }
+
+        return cache[id]
+    }
 }
