@@ -31,13 +31,19 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
     }
 
     private fun setupViews() {
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val decoration = GiphyDecoration(16)
         searchAdapter = GiphyAdapter(this.baseContext)
         searchResult = findViewById(R.id.searchResult)
         searchResult.adapter = searchAdapter
         searchResult.layoutManager = layoutManager
         searchResult.addItemDecoration(decoration)
+        searchResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                layoutManager.invalidateSpanAssignments()
+            }
+        })
 
         progressBar = findViewById(R.id.progressBar)
     }
