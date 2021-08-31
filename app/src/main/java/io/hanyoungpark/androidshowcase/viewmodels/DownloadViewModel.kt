@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.hanyoungpark.androidshowcase.models.ImagesModel
+import io.hanyoungpark.androidshowcase.models.DataModel
 import io.hanyoungpark.androidshowcase.repositories.GiphyRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,8 +14,8 @@ import javax.inject.Inject
 class DownloadViewModel @Inject constructor(
     private val giphyRepository: GiphyRepository
 ):ViewModel() {
-    private val _images = MutableLiveData<ImagesModel>()
-    val images:LiveData<ImagesModel>
+    private val _images = MutableLiveData<DataModel>()
+    val images:LiveData<DataModel>
         get() = _images
 
     fun loadImages(id: String) {

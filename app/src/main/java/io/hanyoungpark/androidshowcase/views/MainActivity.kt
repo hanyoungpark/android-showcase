@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
     private lateinit var progressBar: ProgressBar
     private lateinit var searchResult: RecyclerView
     private lateinit var searchAdapter: GiphyAdapter
+    private var searchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +69,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
         val searchItem = menu?.findItem(R.id.app_bar_search) ?: return true
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(this)
+        searchView = searchItem.actionView as? SearchView
+        searchView?.setOnQueryTextListener(this)
         return true
     }
 
@@ -79,6 +80,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
             searchAdapter.reset()
             giphyViewModel.search(it)
         }
+        searchView?.clearFocus()
         return false
     }
 

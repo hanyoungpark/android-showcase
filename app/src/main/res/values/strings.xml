@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">android-showcase</string>
     <string name="search_title">Input keywords</string>
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="ask_allow_permission">Please push the download button again after allow to access the storage.</string>
+    <string name="download_completed">Download just started. Please check the download folder.</string>
+    <string name="okay">Okay</string>
 </resources>
