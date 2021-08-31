@@ -1,5 +1,6 @@
 package io.hanyoungpark.androidshowcase.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -35,6 +36,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener{
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val decoration = GiphyDecoration(16)
         searchAdapter = GiphyAdapter(this.baseContext)
+        searchAdapter.setOnClickImage {
+            val intent = Intent(this, DownloadActivity::class.java).apply {
+                putExtra("id", it)
+            }
+            this.startActivity(intent)
+        }
         searchResult = findViewById(R.id.searchResult)
         searchResult.adapter = searchAdapter
         searchResult.layoutManager = layoutManager

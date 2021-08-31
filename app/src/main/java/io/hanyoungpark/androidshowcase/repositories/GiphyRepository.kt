@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 interface GiphyRepository {
     fun search(query: String, limit: Int, offset: Int): Flow<SearchModel>
+    fun getImages(id: String): ImagesModel?
 }
 
 class GiphyRepositoryImpl @Inject constructor (
@@ -35,4 +36,12 @@ class GiphyRepositoryImpl @Inject constructor (
                 }
             }
         }
+
+    override fun getImages(id: String): ImagesModel? {
+        if (!cache.contains(id)) {
+            return null
+        }
+
+        return cache[id]
+    }
 }

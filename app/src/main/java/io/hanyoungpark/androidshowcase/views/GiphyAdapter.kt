@@ -1,6 +1,7 @@
 package io.hanyoungpark.androidshowcase.views
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,10 +11,15 @@ import io.hanyoungpark.androidshowcase.models.DataModel
 
 class GiphyAdapter(private val context: Context): RecyclerView.Adapter<GiphyViewHolder>() {
     private val data = mutableListOf<DataModel>()
+    private lateinit var clickListener: (String) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GiphyViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.layout_image, null)
-        return GiphyViewHolder(layout)
+        val viewHolder = GiphyViewHolder(layout)
+        viewHolder.imageView.setOnClickListener {
+            clickListener(it.tag as String)
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: GiphyViewHolder, position: Int) {
@@ -24,6 +30,7 @@ class GiphyAdapter(private val context: Context): RecyclerView.Adapter<GiphyView
         it.title?.let {
             holder.textView.text = it
         }
+        holder.imageView.tag = it.id
     }
 
     override fun getItemCount(): Int {
@@ -38,5 +45,9 @@ class GiphyAdapter(private val context: Context): RecyclerView.Adapter<GiphyView
     fun add(newData: List<DataModel>) {
         data.addAll(newData)
         notifyDataSetChanged()
+    }
+
+    fun setOnClickImage(listener: (String) -> Unit) {
+        clickListener = listener
     }
 }
