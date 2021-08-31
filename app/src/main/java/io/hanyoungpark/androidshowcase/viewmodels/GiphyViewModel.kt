@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.Component
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.hanyoungpark.androidshowcase.models.DataModel
+import io.hanyoungpark.androidshowcase.modules.GiphyModule
 import io.hanyoungpark.androidshowcase.repositories.GiphyRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -27,7 +29,9 @@ class GiphyViewModel @Inject constructor(
         viewModelScope.launch {
             val flow = giphyRepository.search(query, size, page)
             flow.collect {
-                _searchResult.postValue(it.data)
+                it.data?.let { list ->
+                    _searchResult.postValue(list)
+                }
             }
         }
     }

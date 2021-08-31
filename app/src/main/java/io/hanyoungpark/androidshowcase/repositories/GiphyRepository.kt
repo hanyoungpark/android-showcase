@@ -1,12 +1,11 @@
 package io.hanyoungpark.androidshowcase.repositories
 
+import dagger.Component
 import io.hanyoungpark.androidshowcase.models.SearchModel
+import io.hanyoungpark.androidshowcase.modules.GiphyModule
 import io.hanyoungpark.androidshowcase.services.GiphyService
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
-import java.lang.Exception
 import javax.inject.Inject
 
 interface GiphyRepository {
@@ -21,7 +20,7 @@ class GiphyRepositoryImpl @Inject constructor (
                         offset: Int): Flow<SearchModel> =
         flow {
             val result
-                = giphyService.search("", query, limit, offset)
+                = giphyService.search("L1aHdsajAMSXlS2TAVaI8FNkEbeRWBzB", query, limit, offset)
                 ?: return@flow
             emit(result)
         }
