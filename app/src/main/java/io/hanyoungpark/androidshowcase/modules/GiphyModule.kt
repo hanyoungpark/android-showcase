@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
-object GiphyModule {
+object GiphyServiceModule {
     @Provides
     fun provideGiphyService(): GiphyService {
         return Retrofit.Builder()
@@ -29,7 +29,7 @@ object GiphyModule {
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class GiphyModule2 {
+abstract class GiphyRepositoryModule {
     @Binds
     abstract fun bindGiphyRepository(giphyRepositoryImpl: GiphyRepositoryImpl): GiphyRepository
 }

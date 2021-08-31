@@ -1,10 +1,11 @@
-package io.hanyoungpark.androidshowcase
+package io.hanyoungpark.androidshowcase.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
+import io.hanyoungpark.androidshowcase.R
 import io.hanyoungpark.androidshowcase.viewmodels.GiphyViewModel
 
 @AndroidEntryPoint
