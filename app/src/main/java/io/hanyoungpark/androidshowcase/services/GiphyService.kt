@@ -11,13 +11,5 @@ interface GiphyService {
     suspend fun search(@Query("api_key") apiKey: String,
                        @Query("q") query: String,
                        @Query("limit") limit: Int,
-                       @Query("offset") offset: Int): SearchModel
-
-    companion object {
-        fun create() = Retrofit.Builder()
-            .baseUrl("https://api.giphy.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(GiphyService::class.java)
-    }
+                       @Query("offset") offset: Int): SearchModel?
 }
