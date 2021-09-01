@@ -19,3 +19,9 @@ buildTypes {
     }
 }
 ```
+
+## Enviroment
+
+* Android Studio Arctic Fox | 2020.3.1 Patch 1
+* OpenJDK 11
+* Kotlin 203-1.5.30-release-411-AS7717.8
